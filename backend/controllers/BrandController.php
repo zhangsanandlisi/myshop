@@ -22,7 +22,7 @@ class BrandController extends \yii\web\Controller
             'totalCount' => $count
         ]);
         //查询数据
-        $models=$query->offset($page->offset)->limit($page->limit)->all();
+        $models=$query->offset($page->offset)->limit($page->limit)->orderBy(['sort'=>'desc'])->all();
 
         return $this->render('index',compact("models","page"));
     }
