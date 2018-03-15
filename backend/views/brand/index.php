@@ -21,7 +21,11 @@
     <td><?=$model->id?></td>
     <td><?=$model->name?></td>
     <td><?php
-        echo \backend\models\Brand::$statusa[$model->status];
+        if($model->status){
+           echo "<a class='glyphicon glyphicon-ok'></a>";
+        }else{
+            echo "<a class='glyphicon glyphicon-remove' style='color: red'></a>";
+        }
         ?></td>
     <td><?=$model->sort?></td>
     <td><img src="/<?=$model->logo?>" height="38"> </td>
