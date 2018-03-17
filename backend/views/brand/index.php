@@ -22,16 +22,19 @@
     <td><?=$model->name?></td>
     <td><?php
         if($model->status){
-           echo "<a class='glyphicon glyphicon-ok'></a>";
+           echo \yii\bootstrap\Html::a("","end?id=$model->id",['class'=>'glyphicon glyphicon-ok','style'=>'color:green']);
         }else{
-            echo "<a class='glyphicon glyphicon-remove' style='color: red'></a>";
+            echo \yii\bootstrap\Html::a("","start?id=$model->id",['class'=>'glyphicon glyphicon-remove','style'=>'color:red']);
         }
         ?></td>
     <td><?=$model->sort?></td>
-    <td><img src="/<?=$model->logo?>" height="38"> </td>
+    <td><?php
+        $path=strpos($model->logo,"ttp://")?$model->logo:"/".$model->logo;
+        echo \yii\helpers\Html::img($path,['height'=>'38']);
+        ?></td>
     <td><?=$model->intro?></td>
     <td><a href="<?=\yii\helpers\Url::to(['edit','id'=>$model->id])?>" class="btn btn-info">编辑</a></td>
-    <td><a href="<?=\yii\helpers\Url::to(['del','id'=>$model->id])?>" class="btn btn-danger">禁用</a></td>
+    <td><a href="<?=\yii\helpers\Url::to(['del','id'=>$model->id])?>" class="btn btn-danger">删除</a></td>
     </tr>
     <?php
     endforeach;

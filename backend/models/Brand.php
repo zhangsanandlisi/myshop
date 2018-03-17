@@ -16,7 +16,7 @@ use Yii;
  */
 class Brand extends \yii\db\ActiveRecord
 {
-    public $imgFile;
+//    public $imgFile;
     //声明静态属性
     public static $statusa=[0=>'禁用',1=>'激活'];
 
@@ -34,9 +34,9 @@ class Brand extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'status', 'sort',], 'required'],
+            [['name', 'status', 'sort','logo'], 'required'],
             ['intro','safe'],
-            [['imgFile'],'image','extensions' => ['jpg','png','gif'],'skipOnEmpty' => true]
+//            [['imgFile'],'image','extensions' => ['jpg','png','gif'],'skipOnEmpty' => true]
         ];
     }
 
@@ -50,7 +50,7 @@ class Brand extends \yii\db\ActiveRecord
             'name' => '名称',
             'status' => '状态',
             'sort' => '排序',
-            'imgFile' => '图片',
+            'logo' => '图片',
             'intro' => '简介',
         ];
     }

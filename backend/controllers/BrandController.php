@@ -4,7 +4,9 @@ namespace backend\controllers;
 
 use backend\models\Brand;
 use Codeception\Lib\Generator\PageObject;
+use crazyfd\qiniu\Qiniu;
 use yii\data\Pagination;
+use yii\helpers\Json;
 use yii\web\Request;
 use yii\web\UploadedFile;
 
@@ -18,7 +20,7 @@ class BrandController extends \yii\web\Controller
         $count=$query->count();
         //声明一个分页对象
         $page=new Pagination([
-            'pageSize' => 5,
+            'pageSize' => 3,
             'totalCount' => $count
         ]);
         //查询数据
@@ -38,20 +40,20 @@ class BrandController extends \yii\web\Controller
             //绑定数据
             $model->load($request->post());
 
-            //接收图片
-            $model->imgFile=UploadedFile::getInstance($model,"imgFile");
-            //定义一个空的
-            $path="";
-            if ($model->imgFile) {
-                //定义路径
-                $path="images/".time().".".$model->imgFile->extension;
-                //移动到新目录
-                $model->imgFile->saveAs($path,false);
-            }
+//            //接收图片
+//            $model->imgFile=UploadedFile::getInstance($model,"imgFile");
+//            //定义一个空的
+//            $path="";
+//            if ($model->imgFile) {
+//                //定义路径
+//                $path="images/".time().".".$model->imgFile->extension;
+//                //移动到新目录
+//                $model->imgFile->saveAs($path,false);
+//            }
 
             //后台验证
             if ($model->validate()) {
-                $model->logo=$path;
+//                $model->logo=$path;
                 //保存数据
                 if ($model->save(false)) {
                     \Yii::$app->session->setFlash("success","添加成功");
@@ -76,22 +78,22 @@ class BrandController extends \yii\web\Controller
             //绑定数据
             $model->load($request->post());
 
-            //接收图片
-            $model->imgFile=UploadedFile::getInstance($model,"imgFile");
-            //定义一个空的
-              $path="";
-            if ($model->imgFile) {
-                //定义路径
-                $path="images/".time().".".$model->imgFile->extension;
-                //移动到新目录
-                $model->imgFile->saveAs($path,false);
-            }
+//            //接收图片
+//            $model->imgFile=UploadedFile::getInstance($model,"imgFile");
+//            //定义一个空的
+//              $path="";
+//            if ($model->imgFile) {
+//                //定义路径
+//                $path="images/".time().".".$model->imgFile->extension;
+//                //移动到新目录
+//                $model->imgFile->saveAs($path,false);
+//            }
 
             //后台验证
             if ($model->validate()) {
-                if($path){
-                    $model->logo=$path;
-                }
+//                if($path){
+//                    $model->logo=$path;
+//                }
                 //保存数据
                 if ($model->save(false)) {
                     \Yii::$app->session->setFlash("success","添加成功");
@@ -105,8 +107,16 @@ class BrandController extends \yii\web\Controller
         return $this->render('add',compact("model"));
     }
 
+    //删
+    public function actionDel($id){
+        if (Brand::findOne($id)->delete()) {
+            \Yii::$app->session->setFlash("danger","删除成功");
+            return $this->redirect(["index"]);
+        }
+    }
+
     //软删
-    public function actionDel($id)
+    public function actionEnd($id)
     {
         //找到数据
         $model = Brand::findOne($id);
@@ -116,6 +126,107 @@ class BrandController extends \yii\web\Controller
          $model->save();
         \Yii::$app->session->setFlash("success", "禁用成功");
         return $this->redirect(["index"]);
+
+
+    }
+
+    //激活
+    public function actionStart($id)
+    {
+        //找到数据
+        $model = Brand::findOne($id);
+        //重新复值
+        $model->status=1;
+        //保存数据
+        $model->save();
+        \Yii::$app->session->setFlash("success", "激活成功");
+        return $this->redirect(["index"]);
+
+
+    }
+
+    //webuploader
+//    public function actionUpload(){
+//
+////        //得到图片
+//         $file=UploadedFile::getInstanceByName("file");
+////        var_dump($file);exit;
+//         $path="images/".time().".".$file->extension;
+//        if ($file->saveAs($path,"false")) {
+//              $rst= [
+//                  'code'=>'0',
+//                  'url'=>"/".$path,//http://domain/图片地址
+//                  'attachment'=>$path//图片地址
+//              ];
+//
+//              //返回json数据
+//            return Json::encode($rst);
+//        }else{
+//            $res= [
+//                'code'=>'1',
+//                'msg'=>'error'
+//            ];
+//            return Json::encode($res);
+//        }
+//    }
+
+    //qiniu
+    public function actionUpload(){
+
+
+        switch (\Yii::$app->params["uploadType"]){
+
+            case "127.0.0.1":
+
+
+                //得到图片
+         $file=UploadedFile::getInstanceByName("file");
+//        var_dump($file);exit;
+         $path="images/".time().".".$file->extension;
+        if ($file->saveAs($path,"false")) {
+              $rst= [
+                  'code'=>'0',
+                  'url'=>"/".$path,//http://domain/图片地址
+                  'attachment'=>$path//图片地址
+              ];
+
+              //返回json数据
+            return Json::encode($rst);
+        }else{
+            $res= [
+                'code'=>'1',
+                'msg'=>'error'
+            ];
+            return Json::encode($res);
+        }
+        break;
+
+            case "qiniu":
+
+            $ak = 'g55WlYZmAcfjlQDw4CgilVkj-JiDkt6I7RtcPQM9';//id
+            $sk = '2XVES6fEUq2aK14htnOjSVf-7cOFd-2RHfknBjcy';//password
+            $domain = 'http://p5obj1i27.bkt.clouddn.com/';//yuming
+            $bucket = 'php1108';//kongjianmingcheng
+            $zone = 'south_china';
+
+            $qiniu = new Qiniu($ak, $sk,$domain, $bucket,$zone);
+            $key = time();
+            //pinglujing
+            $key=$key.strtolower(strrchr($_FILES['file']['name'], '.'));
+            $qiniu->uploadFile($_FILES['file']['tmp_name'],$key);
+            $url = $qiniu->getLink($key);
+
+            $rst= [
+                'code'=>'0',
+                'url'=>$url,//http://domain/图片地址
+                'attachment'=>$url//图片地址
+            ];
+
+            //返回json数据
+            return Json::encode($rst);
+
+            break;
+        }
 
 
     }
