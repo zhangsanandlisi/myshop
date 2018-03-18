@@ -38,3 +38,26 @@
 2.	文章垂直分表,创建表单使用文章模型和文章详情模型，创建三张数据表
 ## 4.所遇问题
 使用文章表和文章详情表发生关系后，文章表id和文章详情表id以及文章详情表的article_id必须相同，不然编辑会出错
+# day3	商品分类模块
+## 1.	需求
+1.	商品分类的增删改查
+2.	商品分类支持无限级分类
+3.	方便直观的显示分类层级
+4.	分类层级允许修改
+## 2.	设计要点
+ 
+ 
+1.	使用嵌套集合模型
+2.	使用ztree插件显示分类层级(官方网站http://www.treejs.cn)
+3.	商品分类数据表设计
+ 
+## 3.	流程
+1.	安装nested set插件: composer require creocoder/yii2-nested-sets
+2.	配置NestedSetsBehavior
+3.	下载ztree插件:http://www.treejs.cn
+## 4.	难点
+1.	嵌套集合相关理论知识,可以参考http://blog.csdn.net/gongpeng1966/article/details/52910924;https://my.oschina.net/amoswork/blog/280142
+2.	nestedset行为的配置和使用
+3.	ztree插件的使用
+## 5.问题
+使用treegrid插件显示列表后的修改和删除存在问题
