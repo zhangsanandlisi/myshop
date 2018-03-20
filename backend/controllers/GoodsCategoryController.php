@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\GoodsCategory;
 use tests\models\Tree;
+use yii\base\NotSupportedException;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Json;
 use yii\web\Request;
@@ -83,15 +84,15 @@ class GoodsCategoryController extends \yii\web\Controller
                 //判断parent_id
                 if($model->parent_id==0){
                     //创建一级分类
-                    $model->makeRoot();
-                    \Yii::$app->session->setFlash("success","创建成功");
+                    $model->save();
+                    \Yii::$app->session->setFlash("success","编辑成功");
                     return $this->refresh();
                 }else{
                     //找到上级分类id
                     $cateParent=GoodsCategory::findOne($model->parent_id);
                     //创建下级分类
                     $model->prependTo($cateParent);
-                    \Yii::$app->session->setFlash("success","创建成功");
+                    \Yii::$app->session->setFlash("success","编辑成功");
                     return $this->refresh();
                 }
 
@@ -106,10 +107,17 @@ class GoodsCategoryController extends \yii\web\Controller
     //删
     public function actionDelete($id)
     {
-        $model = GoodsCategory::findOne($id);
-        if ($model->delete()) {
-            \Yii::$app->session->setFlash("success","删除成功");
-            return $this->redirect(['index']);
+
+        try{
+            $model = GoodsCategory::findOne($id);
+            if ($model->delete()) {
+                \Yii::$app->session->setFlash("success","删除成功");
+                return $this->redirect(['index']);
+            }
+        }catch (NotSupportedException $exception){
+            \Yii::$app->session->setFlash("danger","无法删除顶级菜单");
+            return $this->redirect(["index"]);
         }
+
     }
 }
