@@ -203,10 +203,10 @@ class BrandController extends \yii\web\Controller
 
             case "qiniu":
 
-            $ak = 'g55WlYZmAcfjlQDw4CgilVkj-JiDkt6I7RtcPQM9';//id
-            $sk = '2XVES6fEUq2aK14htnOjSVf-7cOFd-2RHfknBjcy';//password
-            $domain = 'http://p5obj1i27.bkt.clouddn.com/';//yuming
-            $bucket = 'php1108';//kongjianmingcheng
+            $ak = 'g0JM0Ty4ab2Zyxarhx704pH8gJnEMfDx6cgoptbI';//id
+            $sk = 'WEgGOmuxS_CdUCtxB2GueESQkPPIALRmarzftcyF';//password
+            $domain = 'http://p5uakr9xk.bkt.clouddn.com/';//yuming
+            $bucket = 'zhangsan';//kongjianmingcheng
             $zone = 'south_china';
 
             $qiniu = new Qiniu($ak, $sk,$domain, $bucket,$zone);

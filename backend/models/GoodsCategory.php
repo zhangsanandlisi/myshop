@@ -68,5 +68,8 @@ class GoodsCategory extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getNameText(){
+        return str_repeat("-",$this->depth*2).$this->name;
+    }
 
 }

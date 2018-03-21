@@ -5,21 +5,21 @@
 $form=\yii\bootstrap\ActiveForm::begin();
 
 echo $form->field($model,"name");
-echo $form->field($model,"category_id")->dropDownList($goodsArr);
+echo $form->field($model,"category_id")->dropDownList($cate);
 echo $form->field($model,"brand_id")->dropDownList($brandArr);
-echo $form->field($model,"logo");
+echo $form->field($model,"logo")->widget(\manks\FileInput::className(),[]);
 
-//echo $form->field($model, 'logo')->widget(\manks\FileInput::className(), [
-//    'clientOptions' => [
-//        'pick' => [
-//            'multiple' => true,
-//        ],
-//        // 'server' => Url::to('upload/u2'),
-//        // 'accept' => [
-//        // 	'extensions' => 'png',
-//        // ],
-//    ],
-//]);
+echo $form->field($model, 'images')->widget(\manks\FileInput::className(), [
+    'clientOptions' => [
+        'pick' => [
+            'multiple' => true,
+        ],
+        // 'server' => Url::to('upload/u2'),
+        // 'accept' => [
+        // 	'extensions' => 'png',
+        // ],
+    ],
+]);
 
 echo $form->field($model,"price");
 echo $form->field($model,"stock");

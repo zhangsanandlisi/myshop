@@ -23,6 +23,8 @@ use yii\db\ActiveRecord;
  */
 class Goods extends \yii\db\ActiveRecord
 {
+    //定义多图上传属性
+    public $images;
 
     //静态属性
     public static $statusc=[0=>"禁用",1=>"激活"];
@@ -40,7 +42,7 @@ class Goods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'category_id', 'brand_id', 'logo', 'price', 'stock', 'status', 'sort'], 'required'],
+            [['name', 'category_id', 'brand_id', 'logo', 'price', 'stock', 'status', 'sort','images'], 'required'],
             [['sn'],'safe']
         ];
     }
@@ -54,14 +56,15 @@ class Goods extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => '商品名称',
             'category_id' => '商品分类',
-            'brand_id' => '商品品牌',
-            'logo' => '商品图片',
-            'price' => '商品价格',
+            'brand_id' => '品牌',
+            'logo' => '商标',
+            'price' => '价格',
             'stock' => '库存',
             'sn' => '货号',
             'status' => '状态',
             'sort' => '排序',
             'create_time' => '创建时间',
+            'images'=>'商品图片'
         ];
     }
 
