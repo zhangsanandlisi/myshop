@@ -19,25 +19,37 @@ use yii\web\IdentityInterface;
  */
 class Admin extends \yii\db\ActiveRecord implements IdentityInterface
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
+    //声明场景
+    public function scenarios()
     {
-        return 'admin';
+
+            $parent=parent::scenarios();
+            $parent['add'] = ['username', 'password', 'email'];
+           $parent['edit'] = ['username', 'password','email'];
+
+           return $parent;
+    }
+
+    public function rules()
+    {
+        return [
+            [['username', 'email'], 'required'],
+            [['password'], 'required', 'on' => 'add'],
+            [['password'],'safe', 'on' => 'edit'],
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['username', 'email', 'password'], 'safe'],
-            [['email'],'email'],
-            [['last_time','last_ip'],'safe']
-        ];
-    }
+//    public function rules()
+//    {
+//        return [
+//            [['username', 'email', 'password'], 'required'],
+//            [['email'],'email'],
+//            [['last_time','last_ip'],'safe']
+//        ];
+//    }
 
     /**
      * @inheritdoc
@@ -116,7 +128,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        // TODO: Implement getAuthKey() method.
+        return $this->auto_key;
     }
 
     /**
@@ -129,6 +141,6 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        // TODO: Implement validateAuthKey() method.
+        return $this->auto_key===$authKey;
     }
 }

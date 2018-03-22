@@ -89,3 +89,29 @@
 3.先完成管理员的增删改查                         
 4.完成登录                                   
 5.添加最后登录时间，最后登录ip                 
+# day6 管理员模块的完善
+## 1.自动登录
+在数据表中创建auth_key字段，即令牌字段，通过它实现记住密码                       
+## 2.实现场景功能：                       
+### 1.在model中声明场景                               
+    public function scenarios()
+    {
+        $parent=parent::scenarios();
+        $parent['add'] = ['username', 'password', 'email'];
+         $parent['edit'] = ['username', 'password','email'];
+          return $parent;
+    }
+
+    public function rules()
+    {
+        return [
+            [['username', 'email'], 'required'],
+            [['password'], 'required', 'on' => 'add'],
+            [['password'],'safe', 'on' => 'edit'],
+        ];
+    }
+### 2.在controller中设置场景并开始实现功能
+ 1.设置场景                                    
+        $model->setScenario('edit');
+        $password=$model->password;                                  
+2.实现添加中有3个属性，编辑中只需部分属性的功能
