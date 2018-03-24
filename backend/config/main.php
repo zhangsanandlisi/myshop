@@ -7,6 +7,9 @@ $params = array_merge(
 );
 
 return [
+//    'as rbac'=>[
+//        'class'=>\backend\filters\RbacFilter::className()
+//    ],
 //    'name'=>'我的世界',
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),

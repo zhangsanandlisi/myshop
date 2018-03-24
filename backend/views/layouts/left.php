@@ -85,8 +85,25 @@
                             ['label' => '添加管理员', 'icon' => 'plus', 'url' => ['/admin/add'],],
                         ],
                     ],
+                    [
+                        'label' => '权限管理',
+                        'icon' => 'shopping-cart',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => '权限列表', 'icon' => 'eye', 'url' => ['/auth-item/index'],],
+                            ['label' => '添加权限', 'icon' => 'plus', 'url' => ['/auth-item/add'],],
+                        ],
+                    ],
+                    [
+                        'label' => '角色管理',
+                        'icon' => 'shopping-cart',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => '角色列表', 'icon' => 'eye', 'url' => ['/role/index'],],
+                            ['label' => '添加角色', 'icon' => 'plus', 'url' => ['/role/add'],],
+                        ],
+                    ],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
                         'label' => 'Some tools',
