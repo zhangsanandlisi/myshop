@@ -27,6 +27,7 @@ class AdminController extends \yii\web\Controller
     public function actionAdd(){
         $model=new Admin();
 
+        $model->setScenario('add');
         $request=new Request();
         if ($request->isPost) {
             $model->load($request->post());
