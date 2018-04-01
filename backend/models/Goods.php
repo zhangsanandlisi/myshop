@@ -92,4 +92,9 @@ class Goods extends \yii\db\ActiveRecord
     public function getGoods(){
         return $this->hasOne(GoodsCategory::className(),['id'=>'category_id']);
     }
+
+    //1对多得到商品图片
+    public function getImgs(){
+        return $this->hasMany(GoodsImg::className(),['goods_id'=>'id']);
+    }
 }
