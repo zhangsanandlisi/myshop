@@ -173,15 +173,15 @@
 					<!--使用说明：此处的预览图效果有三种类型的图片，大图，中图，和小图，取得图片之后，分配到模板的时候，把第一幅图片分配到 上面的midpic 中，其中大图分配到 a 标签的href属性，中图分配到 img 的src上。 下面的smallpic 则表示小图区域，格式固定，在 a 标签的 rel属性中，分别指定了中图（smallimage）和大图（largeimage），img标签则显示小图，按此格式循环生成即可，但在第一个li上，要加上cur类，同时在第一个li 的a标签中，添加类 zoomThumbActive  -->
 
 					<div class="smallpic">
-						<a href="/javascript:;" id="backward" class="off"></a>
-						<a href="/javascript:;" id="forward" class="on"></a>
+						<a href="javascript:;" id="backward" class="off"></a>
+						<a href="javascript:;" id="forward" class="on"></a>
 						<div class="smallpic_wrap">
 							<ul>
                                 <?php
                                 foreach ($model->imgs as $key=>$img):
                                 ?>
 								<li class="<?=$key>0?"":"cur"?>">
-									<a class="<?=$key>0?"":"zoomThumbActive"?>" href="/javascript:void(0);" rel="{gallery: 'gal1', smallimage: '<?=$img->path."?imageView2/2/w/350/h/350"?>',largeimage: '<?=$img->path."?imageView2/2/w/800/h/800"?>'}"><img src="<?=$img->path."?imageView2/2/w/50/h/50"?>"></a>
+									<a class="<?=$key>0?"":"zoomThumbActive"?>" href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: '<?=$img->path."?imageView2/2/w/350/h/350"?>',largeimage: '<?=$img->path."?imageView2/2/w/800/h/800"?>'}"><img src="<?=$img->path."?imageView2/2/w/50/h/50"?>"></a>
 								</li>
                                 <?php
                                 endforeach;
@@ -209,9 +209,9 @@
 								<dl>
 									<dt>购买数量：</dt>
 									<dd>
-										<a href="/javascript:;" id="reduce_num"></a>
+										<a href="javascript:;" id="reduce_num"></a>
 										<input type="text" name="amount" value="1" class="amount"/>
-										<a href="/javascript:;" id="add_num"></a>
+										<a href="javascript:;" id="add_num"></a>
 									</dd>
 								</dl>
 							</li>

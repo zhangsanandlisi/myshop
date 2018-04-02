@@ -38,7 +38,7 @@
 	<!-- 页面头部 end -->
 	
 	<div style="clear:both;"></div>
-
+<form>
 	<!-- 主体部分 start -->
 	<div class="fillin w990 bc mt15">
 		<div class="fillin_hd">
@@ -50,9 +50,28 @@
 			<div class="address">
 				<h3>收货人信息</h3>
 				<div class="address_info">
-				<p>
-					<input type="radio" value="1" name="address_id"/>许坤  17002810530  北京市 昌平区 仙人跳区 仙人跳大街 </p>
-					<input type="radio" value="1" name="address_id"/>许坤  17002810530  四川省 成都市 高新区 仙人跳大街 </p>
+                    <?php
+                    foreach ($addresss as $address):
+                    ?>
+				<p><input type="radio" value="<?=$address->id?>" name="address_id" <?=$address->status?"checked":""?>/>
+                    <?php
+                    echo $address->name;
+                    echo " ";
+                    echo $address->mobile;
+                    echo " ";
+                    echo $address->province;
+                    echo " ";
+                    echo $address->city;
+                    echo " ";
+                    echo $address->county;
+                    echo " ";
+                    echo $address->address;
+                    echo " ";
+                    ?>
+                </p>
+                    <?php
+                    endforeach;
+                    ?>
 				</div>
 
 
@@ -67,32 +86,20 @@
 					<table>
 
 						<tbody>
-							<tr class="cur">	
+                        <?php
+                        foreach ($expresss as $k=>$express):
+                        ?>
+							<tr class="<?=$k?"":"cur"?>">
 								<td>
-									<input type="radio" name="delivery" checked="checked" />普通快递送货上门
+									<input type="radio" value="<?=$express->id?>" name="express" checked="<?=$k?"checked":""?>" /><?=$express->name?>
 
 								</td>
-								<td>￥10.00</td>
-								<td>每张订单不满499.00元,运费15.00元, 订单4...</td>
+                                <td>￥<span><?=$express->price?></span></td>
+								<td><?=$express->intro?></td>
 							</tr>
-							<tr>
-								
-								<td><input type="radio" name="delivery" />特快专递</td>
-								<td>￥40.00</td>
-								<td>每张订单不满499.00元,运费40.00元, 订单4...</td>
-							</tr>
-							<tr>
-								
-								<td><input type="radio" name="delivery" />加急快递送货上门</td>
-								<td>￥40.00</td>
-								<td>每张订单不满499.00元,运费40.00元, 订单4...</td>
-							</tr>
-							<tr>
-
-								<td><input type="radio" name="delivery" />平邮</td>
-								<td>￥10.00</td>
-								<td>每张订单不满499.00元,运费15.00元, 订单4...</td>
-							</tr>
+                        <?php
+                        endforeach;
+                        ?>
 						</tbody>
 					</table>
 <!--					<a href="/" class="confirm_btn"><span>确认送货方式</span></a>-->
@@ -106,23 +113,17 @@
 
 
 				<div class="pay_select">
-					<table> 
-						<tr class="cur">
-							<td class="col1"><input type="radio" name="pay" />货到付款</td>
-							<td class="col2">送货上门后再收款，支持现金、POS机刷卡、支票支付</td>
+					<table>
+                        <?php
+                        foreach ($pays as $k=>$pay):
+                        ?>
+						<tr class="<?=$k?"":"cur"?>">
+							<td class="col1"><input type="radio" name="pay" value="<?=$pay->id?>" checked="<?=$k?"checked":""?>"/><?=$pay->name?></td>
+							<td class="col2"><?=$pay->intro?></td>
 						</tr>
-						<tr>
-							<td class="col1"><input type="radio" name="pay" />在线支付</td>
-							<td class="col2">即时到帐，支持绝大数银行借记卡及部分银行信用卡</td>
-						</tr>
-						<tr>
-							<td class="col1"><input type="radio" name="pay" />上门自提</td>
-							<td class="col2">自提时付款，支持现金、POS刷卡、支票支付</td>
-						</tr>
-						<tr>
-							<td class="col1"><input type="radio" name="pay" />邮局汇款</td>
-							<td class="col2">通过快钱平台收款 汇款后1-3个工作日到账</td>
-						</tr>
+                        <?php
+                        endforeach;
+                        ?>
 					</table>
 <!--					<a href="/" class="confirm_btn"><span>确认支付方式</span></a>-->
 				</div>
@@ -146,38 +147,34 @@
 						</tr>	
 					</thead>
 					<tbody>
+                    <?php
+                    foreach ($goods as $good):
+                    ?>
 						<tr>
-							<td class="col1"><a href="/"><img src="/images/cart_goods1.jpg" alt="" /></a>  <strong><a href="/">【1111购物狂欢节】惠JackJones杰克琼斯纯羊毛菱形格</a></strong></td>
-							<td class="col3">￥499.00</td>
-							<td class="col4"> 1</td>
-							<td class="col5"><span>￥499.00</span></td>
+							<td class="col1"><a href="/"><img src="<?=$good->logo?>" alt="" /></a>  <strong><a href="/"><?=$good->name?></a></strong></td>
+							<td class="col3">￥<?=$good->price?>.00</td>
+							<td class="col4"> <?=$cart[$good->id]?></td>
+							<td class="col5"><span>￥<?=$good->price*$cart[$good->id]?>.00</span></td>
 						</tr>
-						<tr>
-							<td class="col1"><a href="/"><img src="/images/cart_goods2.jpg" alt="" /></a> <strong><a href="/">九牧王王正品新款时尚休闲中长款茄克EK01357200</a></strong></td>
-							<td class="col3">￥1102.00</td>
-							<td class="col4">1</td>
-							<td class="col5"><span>￥1102.00</span></td>
-						</tr>
+                    <?php
+                    endforeach;
+                    ?>
 					</tbody>
 					<tfoot>
 						<tr>
 							<td colspan="5">
 								<ul>
 									<li>
-										<span>4 件商品，总商品金额：</span>
-										<em>￥5316.00</em>
-									</li>
-									<li>
-										<span>返现：</span>
-										<em>-￥240.00</em>
+										<span><?=$numTotal?> 件商品，总商品金额：</span>
+                                        <em>￥<span id="allPrice"><?=$priceTotal?></span>.00</em>
 									</li>
 									<li>
 										<span>运费：</span>
-										<em>￥10.00</em>
+                                        <em>￥<span id="price"><?=$express->price?></span></em>
 									</li>
 									<li>
 										<span>应付总额：</span>
-										<em>￥5076.00</em>
+										<em>￥<span id="priceAll"><?=$priceTotal+$express->price?></span></em>
 									</li>
 								</ul>
 							</td>
@@ -190,13 +187,15 @@
 		</div>
 
 		<div class="fillin_ft">
-			<a href="/"><span>提交订单</span></a>
-			<p>应付总额：<strong>￥5076.00元</strong></p>
+			<a href="javascript:;" id="sub_btn"><span>提交订单</span></a>
+			<p>应付总额：<strong>￥<span id="priceAlls"><?=$priceTotal+$express->price?></span>.00元</strong></p>
 			
 		</div>
 	</div>
 	<!-- 主体部分 end -->
-
+<!--    400错误-->
+    <input type="hidden" name="_csrf-frontend" value="<?=Yii::$app->request->csrfToken?>">
+</form>
 	<div style="clear:both;"></div>
 	<!-- 底部版权 start -->
 	<div class="footer w1210 bc mt15">
@@ -224,5 +223,31 @@
 		</p>
 	</div>
 	<!-- 底部版权 end -->
+
+    <script>
+        $(function () {
+            //监听事件改变
+            $("input[name=express]").change(function () {
+                //获取邮费
+                var price=$(this).parent().next().children().text();
+                //邮费赋值
+                $("#price").text(price);
+                //总额赋值
+                $("#priceAll,#priceAlls").text(parseFloat(price)+parseFloat($("#allPrice").text()));
+//                console.log(price);
+            });
+
+            //提交订单
+            $("#sub_btn").click(function () {
+                //提交
+                $.post('/order/index',$("form").serialize(),function (data) {
+//                        console.log(data);
+                    if(data.status){
+                        $(location).attr('href', '/pay/index',"请支付");
+                    }
+                },'json');
+            });
+        })
+    </script>
 </body>
 </html>
