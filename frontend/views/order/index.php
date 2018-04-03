@@ -243,7 +243,8 @@
                 $.post('/order/index',$("form").serialize(),function (data) {
 //                        console.log(data);
                     if(data.status){
-                        $(location).attr('href', '/pay/index',"请支付");
+//                        console.log(data.id);
+                        $(location).attr('href', '/order/pay?id='+data.id,"请支付");
                     }
                 },'json');
             });
