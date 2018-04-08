@@ -92,5 +92,30 @@ include Yii::getAlias('@app')."/views/common/nav.php";
     </p>
 </div>
 <!-- 底部版权 end -->
+<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/layer/layer.js"></script>
+
+<script>
+
+    //定时器
+    setInterval("getStatus()",1000);
+
+    var id=<?=$order->id?>;
+//    alert(id);
+
+   function getStatus(){
+       $.getJSON('/order/status?id='+id,function (data) {
+//           console.log(data);
+           if(data.status==2){
+               layer.msg('支付成功');
+//               window.location.href="";
+               $(location).attr('href', '/index/index');
+           }
+       })
+   }
+
+    
+</script>
+
 </body>
 </html>

@@ -142,6 +142,8 @@ class GoodsController extends \yii\web\Controller
 //            //添加cookie
 //            $setcookie->add($cookie);
             (new GoodsCart())->edit($id,$amount)->save();
+        }else{
+
         }
     }
 

@@ -88,6 +88,10 @@
     <div style="clear:both;"></div>
 
     <!-- 导航条部分 start -->
+    <?php
+    ob_start();
+    ?>
+
     <div class="nav w1210 bc mt10">
         <!--  商品分类部分 start-->
         <div class="category fl <?=Yii::$app->controller->id."/".Yii::$app->controller->action->id==="index/index"?"":"cat1"?>"> <!-- 非首页，需要添加cat1类 -->
@@ -149,6 +153,24 @@
             <div class="right_corner fl"></div>
         </div>
     </div>
+
+    <?php
+    $html=ob_get_clean();
+
+    //判断是否是首页
+    $name=Yii::$app->controller->id."/".Yii::$app->controller->action->id=="index/index"?"index":"other";
+
+    //判断是否有缓存
+    if(Yii::$app->cache->get($name)){
+           echo Yii::$app->cache->get($name);
+    }else{
+        echo $html;
+        //存入缓存
+        Yii::$app->cache->set($name,$html);
+    }
+
+    ?>
+
     <!-- 导航条部分 end -->
 </div>
 <!-- 头部 end-->

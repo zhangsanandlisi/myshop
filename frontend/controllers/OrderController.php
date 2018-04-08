@@ -22,6 +22,7 @@ class OrderController extends \yii\web\Controller
     //400
     public $enableCsrfValidation=false;
 
+    //订单
     public function actionIndex()
     {
         if(\Yii::$app->user->isGuest){
@@ -182,6 +183,7 @@ class OrderController extends \yii\web\Controller
         return $this->render('pay',compact('order'));
     }
 
+    //支付
     public function actionTest($id){
         $order=Order::findOne($id);
 
@@ -257,8 +259,60 @@ class OrderController extends \yii\web\Controller
             $order->save(); // 保存订单
 
             return true; // 返回处理完成
+
         });
 
         return $response;
+    }
+
+    //得到当前订单状态
+    public function actionStatus($id){
+        $order=Order::findOne($id);
+        return Json::encode($order);
+    }
+
+    //清理超时未处理订单
+    public function actionClear()
+    {
+
+        $db = \Yii::$app->db;
+        $transaction = $db->beginTransaction();
+
+        try {
+
+            //找出超时未处理订单
+            $orders = Order::find()->where(['status' => 1])->andWhere(['<', 'create_time', time() - 900])->asArray()->all();
+            $ordersId = array_column($orders, 'id');
+//            var_dump($ordersId);exit;
+            //修改订单状态
+            Order::updateAll(['status' => 0], ['in', 'id', $ordersId]);
+
+            //还原商品库存
+            foreach ($orders as $order) {
+                //每个订单对应的订单详情
+                $orderDetails = OrderDetail::find()->where(['order_id' => $order['id']])->all();
+                //找出订单详情中的商品
+                foreach ($orderDetails as $orderDetail) {
+                    //商品数据
+//                $good=Goods::findOne($orderDetail->goods_id);
+//                $good->stock+=$orderDetail->amount;
+////                var_dump($good->stock);exit;
+//                $good->save();
+                    Goods::updateAllCounters(['stock' => $orderDetail->amount], ['id' => $orderDetail->goods_id]);
+                }
+//            var_dump($good->stock);exit;
+            }
+            $transaction->commit();
+
+        } catch(Exception $e) {
+
+            $transaction->rollBack();
+
+            throw $e;
+        }
+
+
+
+
     }
 }

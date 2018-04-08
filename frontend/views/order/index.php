@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="/style/footer.css" type="text/css">
 
 	<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/layer/layer.js"></script>
 	<script type="text/javascript" src="/js/cart2.js"></script>
 
 </head>
@@ -244,6 +245,7 @@
 //                        console.log(data);
                     if(data.status){
 //                        console.log(data.id);
+                        layer.msg('下单成功');
                         $(location).attr('href', '/order/pay?id='+data.id,"请支付");
                     }
                 },'json');
